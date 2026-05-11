@@ -40,7 +40,8 @@ First we load the required packages.
 knitr::opts_chunk$set(echo = TRUE)
 library(spammR)
 ##these are all on cran
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(readxl)
 library(tidygraph)
 library(ggraph)
@@ -155,7 +156,7 @@ should you choose to load teo GEOJson using the `geojsonR` package.
   coords$x_pixels = unlist(coords$x_pixels)
   coords$spot_height = unlist(coords$spot_height)
   coords$spot_width = unlist(coords$spot_width)
-  readr::write_csv(as.data.frame(coords),file='../inst/extdata/bcoords.csv')
+  write.csv(as.data.frame(coords),file='../inst/extdata/bcoords.csv')
  
 ```
 
