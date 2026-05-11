@@ -45,6 +45,7 @@ library(readxl)
 library(tidygraph)
 library(ggraph)
 library(cowplot)
+library(BiocFileCache)
 library(leapR) ##this is on bioconductor
 
 ```
@@ -57,17 +58,26 @@ there.
 ## Format data
 We require formatting the data as a matrix for loading. 
 
+```{r create cache}
+path <- tempfile()
+bfc <- BiocFileCache(path, ask = FALSE)
+
+```
+
+Now we download the data we need.
+
 ```{r get proteomics data, warning=FALSE, message=FALSE}
 
 #brain data
 finame <- paste0('https://zenodo.org/records/13345212/files/DESI+spatial',
                  '%20proteomics%20rat%20brain%20proteomics%20',
                  'result.xlsx?download=1')
-fi <- download.file(finame,
-                    dest = 'dat.xlsx')
+
+
+pdat <- bfcadd(bfc, "proteomics", fpath=finame)
 
 #read in data, convert to matrix 
-dat <- readxl::read_xlsx('dat.xlsx') 
+dat <- readxl::read_xlsx(pdat)#'dat.xlsx') 
 
 feature_data <- select(dat, c(Protein,`Protein ID`,`Entry Name`,Gene)) |>
   dplyr::distinct() |>
@@ -211,12 +221,12 @@ mspe <- spammR::retrieve_metaspace_data("2024-02-15_20h37m13s",
 ```
 
 Now we can downlod the object from figshare and load it.
-```{r udpate ms object}
+```{r udpate ms object, error = FALSE}
 
-download.file('https://api.figshare.com/v2/file/download/60993349',
-              destfile = 'mspe.rds')
-mspe <- readRDS('mspe.rds')
-file.remove('mspe.rds')
+mspe.url <- 'https://api.figshare.com/v2/file/download/60993349'
+mcache <- bfcadd(bfc, "mspe", fpath = mspe.url)
+
+mspe <- readRDS(mcache)
 
 ```
 ## Add image data
@@ -436,7 +446,9 @@ gt <- cg %>%
 
 neigh_weights <-  cg |>
   activate(edges) |>
-  filter(from == which(gt$name == lvn[1])) 
+  #now sure how to or from is assigned, might want 
+  #to check both
+  filter(to == which(gt$name == lvn[1])) 
 
 #then we can get the edge weights and nodes 
 edges <- neigh_weights |> as_tibble()

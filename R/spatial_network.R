@@ -125,7 +125,7 @@ spatial_network <- function(spe,
     cormat <- cor(x = fullmat[,qi$rowval], y = fullmat[,ti$rowval], 
                   method = method) #, use = 'p')
     #if (nrow(cormat) == 1) { #only 1 feature correlated
-    cormat <- data.frame(feature1 = fname$name, 
+    cormat <- data.frame(feature1 = ti$name, 
                            t(cormat), 
                            check.names = FALSE)
     colnames(cormat)[2] <- qi$rowval
