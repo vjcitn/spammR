@@ -39,13 +39,34 @@ First we load the required packages.
 ```{r setup, include=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(spammR)
+
 ##these are all on cran
-library(dplyr)
-library(tidyr)
-library(readxl)
-library(tidygraph)
-library(ggraph)
-library(cowplot)
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+  library(tidyverse)
+}
+
+if (!require(tidygraph)) {
+  install.packages("tidygraph")
+  library(tidygraph)
+}
+
+if (!require(readxl)) {
+  install.packages("readxl")
+  library(readxl)
+}
+
+if (!require(ggraph)) {
+  install.packages("ggraph")
+  library(ggraph)
+}
+
+if (!require(cowplot)) {
+  install.packages("cowplot")
+  library(cowplot)
+}
+
+
 library(BiocFileCache)
 library(leapR) ##this is on bioconductor
 
