@@ -1,6 +1,6 @@
 Package: spammR
 Title: SPatial Analysis of Multiomics Measurements in R
-Version: 0.99.20
+Version: 0.99.21
 Authors@R:
     c(person("Sara", "Gosline", , email="sara.gosline@pnnl.gov", 
     role = c("cre","aut"), comment = c(ORCID = "0000-0002-6534-4774")),
